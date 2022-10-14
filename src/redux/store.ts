@@ -10,3 +10,4 @@ const enhancer = compose(applyMiddleware(...middlewares));
 const store = createStore(rootReducer, enhancer);
 
 export default store;
+export type RootState = ReturnType<typeof store.getState>;
