@@ -6,15 +6,17 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { filterComponentProps } from './index';
 import { useUrlSearchParams } from '../../../../hooks';
+import config from '../../../../config';
 const FilterViewComponent = (props: filterComponentProps) => {
+  const searchParams: any = new URLSearchParams(location.search);
   const [type, setType] = useState('All types');
   const isMounted = useRef(false);
-  const { removeQuery } = useUrlSearchParams();
+  const { addQuery, removeQuery } = useUrlSearchParams();
   const {
     setPokemonsTypes,
     types,
     setPokemonsListByType,
-    loadingGetPokemonInfo,
+    loadingTypes,
     setPokemonsList,
     setPage,
   } = props;
@@ -23,29 +25,45 @@ const FilterViewComponent = (props: filterComponentProps) => {
     if (!isMounted.current) {
       setPokemonsTypes();
     }
+
     return () => {
       isMounted.current = true;
     };
   }, []);
 
+  useEffect(() => {
+    if (searchParams.get('type') !== null && types.length > 0) {
+      setType(
+        types.find((item: any) => {
+          return (
+            item.url === `${config.apiUrl}type/${searchParams.get('type')}/`
+          );
+        }).url,
+      );
+    }
+  }, [types]);
   const handleChange = (event: SelectChangeEvent) => {
     setType(event.target.value);
-    setPage(1);
-    removeQuery('page');
     if (event.target.value === 'All types') {
+      removeQuery('type');
       setPokemonsList({
         offset: 0,
         limit: 20,
       });
       return;
     }
+    const parsed = new URL(event.target.value);
+    setPage(1);
+    addQuery('page', 1);
+    addQuery('type', parsed.pathname.split('/')[4]);
+
     setPokemonsListByType(event.target.value, {
       offset: 0,
       limit: 20,
     });
   };
 
-  if (loadingGetPokemonInfo) return <>loading</>;
+  if (loadingTypes) return <>loading</>;
   if (types.length <= 0) return null;
 
   return (

@@ -31,7 +31,7 @@ export const setPokemonsList = (
 };
 
 export const setPokemonsListByType = (
-  url: any,
+  url: string,
   pageData: any,
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch: any) => {

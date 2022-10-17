@@ -10,7 +10,7 @@ import { State } from '../../../../redux/reducers';
 
 const mapState = (state: State) => ({
   types: state.pokemonTypes.types,
-  loadingGetPokemonInfo: state.pokemonInfo.loadingGetPokemonInfo,
+  loadingTypes: state.pokemonTypes.loadingTypes,
 });
 
 const mapDispatch = {
@@ -25,7 +25,7 @@ interface pageData {
 }
 export interface filterComponentProps {
   types: any[];
-  loadingGetPokemonInfo: boolean;
+  loadingTypes: boolean;
   setPokemonsTypes: () => void;
   setPokemonsListByType: (url: string, pageData: pageData) => void;
   setPokemonsList: (pageData: pageData) => void;

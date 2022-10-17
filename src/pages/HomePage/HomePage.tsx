@@ -10,6 +10,7 @@ import { useUrlSearchParams } from '../../hooks';
 import { computePageData } from '../../helpers';
 import CircularIndeterminate from '../../components/CircularProgress';
 import { homeComponentProps } from './index';
+import config from '../../config';
 
 const pageCount = 20;
 
@@ -33,28 +34,25 @@ const HomePageView = (props: homeComponentProps) => {
     currentTypeUrl,
   } = props;
 
-  const handleChangePage = (props: any, page: any) => {
-    addQuery('page', page);
-    setPage(page);
+  const handleChangePage = (props: any, newPage: any) => {
+    if (newPage === page) return;
+    addQuery('page', newPage);
+    setPage(newPage);
     if (isTypesPagination) {
-      setPokemonsListByType(
-        currentTypeUrl,
-        computePageData(+searchParams.get('page')),
-      );
+      setPokemonsListByType(currentTypeUrl, computePageData(newPage));
     } else {
-      setPokemonsList(computePageData(+searchParams.get('page')));
+      setPokemonsList(computePageData(newPage));
     }
   };
 
   useEffect(() => {
-    if (!isMounted.current) {
-      setPage(
-        searchParams.get('page') !== undefined ? 1 : searchParams.get('page'),
-      );
+    if (!isMounted.current && searchParams.get('page') !== null) {
+      setPage(+searchParams.get('page'));
     }
-    if (isTypesPagination) {
+
+    if (isTypesPagination || searchParams.get('type') !== null) {
       setPokemonsListByType(
-        currentTypeUrl,
+        `${config.apiUrl}type/${searchParams.get('type')}/`,
         computePageData(+searchParams.get('page')),
       );
     } else {

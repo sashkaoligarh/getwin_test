@@ -28,6 +28,7 @@ module.exports = {
     "spaced-comment": "error",
     "quotes": ["error", "single"],
     "no-duplicate-imports": "error",
+    "@typescript-eslint/restrict-template-expressions": "off",
     '@typescript-eslint/explicit-function-return-type': [
       'off',
     ],
