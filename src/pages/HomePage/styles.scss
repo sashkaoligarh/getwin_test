@@ -1,0 +1,52 @@
+.rootContainer {
+  padding:20px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.filterContainer {
+  margin-right: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+}
+.selectTypeContainer {
+  justify-content: space-between;
+  width: 100%;
+  display: flex;
+}
+
+.pokeWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(100vw - 550px);
+  margin-left: 10px;
+}
+
+.pokeTile {
+  width:120px;
+  height:120px;
+  margin:10px;
+  display: flex;
+  background-color: #fff;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  div{
+    text-transform: capitalize;
+  }
+  &:hover{
+    cursor: pointer;
+  }
+  padding: 16px;
+}
+
+.body-wrapper {
+  display: flex;
+}
+.pagination {
+  display: flex;
+  width: calc(100vw - 550px);
+  margin-top: 32px;
+  justify-content: center;
+}

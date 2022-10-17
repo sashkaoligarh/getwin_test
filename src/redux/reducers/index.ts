@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux';
-import pokemonReducer from './pokemonReducer';
+import pokemonInfoReducer from './pokemonReducers/pokemonInfoReducer';
+import pokemonListReducer from './pokemonReducers/pokemonListReducer';
+import pokemonTypesReducer from './pokemonReducers/pokemonTypesReducer';
 
 export default combineReducers({
-  counter: pokemonReducer,
+  pokemonInfo: pokemonInfoReducer,
+  pokemonList: pokemonListReducer,
+  pokemonTypes: pokemonTypesReducer,
 });
