@@ -30,10 +30,7 @@ interface pageData {
   offset: number;
   limit: number;
 }
-interface pageData {
-  offset: number;
-  limit: number;
-}
+
 export interface homeComponentProps {
   page: number;
   currentTypeUrl: string;

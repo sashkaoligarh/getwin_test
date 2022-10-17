@@ -36,6 +36,14 @@ const HomePageView = (props: homeComponentProps) => {
   const handleChangePage = (props: any, page: any) => {
     addQuery('page', page);
     setPage(page);
+    if (isTypesPagination) {
+      setPokemonsListByType(
+        currentTypeUrl,
+        computePageData(+searchParams.get('page')),
+      );
+    } else {
+      setPokemonsList(computePageData(+searchParams.get('page')));
+    }
   };
 
   useEffect(() => {
@@ -55,7 +63,7 @@ const HomePageView = (props: homeComponentProps) => {
     return () => {
       isMounted.current = true;
     };
-  }, [searchParams.get('page')]);
+  }, []);
   return (
     <div className="rootContainer">
       <PokemonInfoView />

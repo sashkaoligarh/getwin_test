@@ -3,8 +3,10 @@ import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 
-const middlewares = [thunk, logger];
-
+const middlewares: any = [thunk];
+if (process.env.NODE_ENV !== 'production') {
+  middlewares.push(logger);
+}
 const enhancer = compose(applyMiddleware(...middlewares));
 
 const store = createStore(rootReducer, enhancer);

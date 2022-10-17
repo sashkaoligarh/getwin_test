@@ -5,10 +5,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { filterComponentProps } from './index';
-
+import { useUrlSearchParams } from '../../../../hooks';
 const FilterViewComponent = (props: filterComponentProps) => {
   const [type, setType] = useState('All types');
   const isMounted = useRef(false);
+  const { removeQuery } = useUrlSearchParams();
   const {
     setPokemonsTypes,
     types,
@@ -30,6 +31,7 @@ const FilterViewComponent = (props: filterComponentProps) => {
   const handleChange = (event: SelectChangeEvent) => {
     setType(event.target.value);
     setPage(1);
+    removeQuery('page');
     if (event.target.value === 'All types') {
       setPokemonsList({
         offset: 0,
