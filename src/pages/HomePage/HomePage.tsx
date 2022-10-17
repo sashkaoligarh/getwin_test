@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   FilterViewComponent,
   SearchViewComponent,
@@ -7,19 +7,16 @@ import {
 import Pagination from '@mui/material/Pagination';
 import './styles.scss';
 import { useUrlSearchParams } from '../../hooks';
+import { computePageData } from '../../helpers';
 import CircularIndeterminate from '../../components/CircularProgress';
-// import Skeleton from '@mui/material/Skeleton';
+import { homeComponentProps } from './index';
 
 const pageCount = 20;
 
-const HomePageView = (props: any) => {
+const HomePageView = (props: homeComponentProps) => {
   const isMounted = useRef(false);
-  // const isMounted = useMounted();
   const searchParams: any = new URLSearchParams(location.search);
 
-  const [page, setPage] = useState<number>(
-    searchParams.get('page') !== undefined ? 1 : searchParams.get('page'),
-  );
   const { addQuery } = useUrlSearchParams();
   const {
     setPokemonsList,
@@ -29,6 +26,11 @@ const HomePageView = (props: any) => {
     hasNextPage,
     hasPrevPage,
     loadingGetPokemonsList,
+    page,
+    isTypesPagination,
+    setPage,
+    setPokemonsListByType,
+    currentTypeUrl,
   } = props;
 
   const handleChangePage = (props: any, page: any) => {
@@ -38,18 +40,22 @@ const HomePageView = (props: any) => {
 
   useEffect(() => {
     if (!isMounted.current) {
-      setPokemonsList({
-        offset:
-          searchParams.get('page') === 1
-            ? 0
-            : searchParams.get('page') * pageCount,
-        limit: pageCount,
-      });
+      setPage(
+        searchParams.get('page') !== undefined ? 1 : searchParams.get('page'),
+      );
+    }
+    if (isTypesPagination) {
+      setPokemonsListByType(
+        currentTypeUrl,
+        computePageData(+searchParams.get('page')),
+      );
+    } else {
+      setPokemonsList(computePageData(+searchParams.get('page')));
     }
     return () => {
       isMounted.current = true;
     };
-  }, [page]);
+  }, [searchParams.get('page')]);
   return (
     <div className="rootContainer">
       <PokemonInfoView />
@@ -64,7 +70,7 @@ const HomePageView = (props: any) => {
           </div>
         </div>
         <div className="body-wrapper">
-          {loadingGetPokemonsList === true ? (
+          {loadingGetPokemonsList ? (
             <div className="pokeWrapper">
               <CircularIndeterminate />
             </div>

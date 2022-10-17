@@ -2,6 +2,7 @@ import {
   GET_POKEMON_LIST_STARTED,
   GET_POKEMON_LIST_SUCCESS,
   GET_POKEMON_LIST_ERR,
+  SET_PAGE,
 } from '../types';
 
 import { pokemonSevice } from '../../api';
@@ -17,7 +18,13 @@ export const setPokemonsList = (
     pokemonSevice
       .getPokemonsList(pageData.limit, pageData.offset)
       .then((res: any) => {
-        dispatch(getListSuccess(res.data));
+        dispatch(
+          getListSuccess({
+            ...res.data,
+            isTypesPagination: false,
+            currentTypeUrl: '',
+          }),
+        );
       })
       .catch((error: any) => dispatch(getListFailure(error)));
   };
@@ -25,6 +32,7 @@ export const setPokemonsList = (
 
 export const setPokemonsListByType = (
   url: any,
+  pageData: any,
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch: any) => {
     dispatch(getListStarted());
@@ -32,7 +40,19 @@ export const setPokemonsListByType = (
       .getDataByUrl(url)
       .then((res: any) => {
         const data = res.data.pokemon.map((item: any) => item.pokemon);
-        dispatch(getListSuccess({ results: data }));
+        dispatch(
+          getListSuccess({
+            results: data.slice(
+              pageData.offset,
+              +pageData.limit + +pageData.offset,
+            ),
+            isTypesPagination: true,
+            count: data.length,
+            next: true,
+            previous: false,
+            currentTypeUrl: url,
+          }),
+        );
       })
       .catch((error: any) => dispatch(getListFailure(error)));
   };
@@ -52,4 +72,9 @@ const getListFailure = (error: string) => ({
   payload: {
     error,
   },
+});
+
+export const setPage = (page: number) => ({
+  type: SET_PAGE,
+  payload: page,
 });

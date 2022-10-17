@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './styles.scss';
 import { CircularProgress } from '../../../../components';
+import { infoComponentProps } from './index';
 
-const PokemonInfoView = (props: any) => {
+const PokemonInfoView = (props: infoComponentProps) => {
   const [positionImage, setPositionImage] = useState<boolean>(true);
   const changePosition = () => setPositionImage((prev: boolean) => !prev);
   const { pokemonInfo, loadingGetPokemonInfo, errGetPokeInfo } = props;
@@ -11,7 +12,7 @@ const PokemonInfoView = (props: any) => {
     setPositionImage(true);
   }, [pokemonInfo]);
 
-  if (loadingGetPokemonInfo === true)
+  if (loadingGetPokemonInfo)
     return (
       <div className="container">
         <CircularProgress />

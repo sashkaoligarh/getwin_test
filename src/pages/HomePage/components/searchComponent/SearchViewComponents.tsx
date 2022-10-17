@@ -4,8 +4,8 @@ import { useDebounce } from '../../../../hooks';
 import config from '../../../../config';
 import { CircularProgress } from '../../../../components';
 import './styles.scss';
-
-const SearchViewComponent = (props: any) => {
+import { searchComponentProps } from './index';
+const SearchViewComponent = (props: searchComponentProps) => {
   const { setPokemonInfo, loadingGetInfo } = props;
   const [search, setSearch] = React.useState<string>('');
   const debounce = useDebounce(search, 500);
@@ -28,9 +28,7 @@ const SearchViewComponent = (props: any) => {
         onChange={handleChange}
       />
       <div className="loader">
-        {loadingGetInfo === true && search.length > 0 ? (
-          <CircularProgress />
-        ) : null}
+        {loadingGetInfo && search.length > 0 ? <CircularProgress /> : null}
       </div>
     </div>
   );

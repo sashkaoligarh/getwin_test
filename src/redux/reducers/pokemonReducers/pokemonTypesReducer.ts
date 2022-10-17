@@ -4,13 +4,13 @@ import {
   GET_POKEMON_TYPES_SUCCESS,
   GET_POKEMON_TYPES_ERR,
 } from '../../types';
-interface pokemonsState {
+export interface pokemonTypesState {
   types: any[];
   loadingTypes: boolean;
   errGetTypes: string;
 }
 
-const initialState: pokemonsState = {
+const initialState: pokemonTypesState = {
   types: [],
   loadingTypes: false,
   errGetTypes: '',

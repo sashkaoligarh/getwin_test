@@ -1,7 +1,19 @@
 import { combineReducers } from 'redux';
-import pokemonInfoReducer from './pokemonReducers/pokemonInfoReducer';
-import pokemonListReducer from './pokemonReducers/pokemonListReducer';
-import pokemonTypesReducer from './pokemonReducers/pokemonTypesReducer';
+import pokemonInfoReducer, {
+  pokemonInfoState,
+} from './pokemonReducers/pokemonInfoReducer';
+import pokemonListReducer, {
+  pokemonListState,
+} from './pokemonReducers/pokemonListReducer';
+import pokemonTypesReducer, {
+  pokemonTypesState,
+} from './pokemonReducers/pokemonTypesReducer';
+
+export interface State {
+  pokemonInfo: pokemonInfoState;
+  pokemonList: pokemonListState;
+  pokemonTypes: pokemonTypesState;
+}
 
 export default combineReducers({
   pokemonInfo: pokemonInfoReducer,
